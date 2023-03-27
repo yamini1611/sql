@@ -85,3 +85,97 @@ when not matched by source
 then delete;
 
 drop table backup_std
+
+--task9
+
+--Write a Stored Procedure in SQL using conditional statements to search for a record from the students table
+--(created in SQL Task 8) based on studentname column.
+
+create procedure sp_conditional1(@name varchar(20))
+as
+begin
+if((select studentname from std where studentname = @name)=@name)
+begin
+ print 'student name is ' + @name;
+ end
+else 
+begin
+print 'student name' + @name +'is not found';
+end
+end
+exec sp_conditional1'meenu'
+
+--Write a Stored procedure in SQL to give remarks for the secured marks column in the students table
+--(created in SQL Task 8) using CASE statement.
+
+create procedure sp_remarks5
+as
+begin 
+ SELECT studentid, studentname , securedmarks ,
+CASE
+    WHEN securedmarks > 490  then 'great job'
+    WHEN securedmarks > 470 and securedmarks<490 then 'good job aim higher'
+	when securedmarks <470  and securedmarks <450  then 'concentrate on concepts'
+	when securedmarks <450then 'need more improvement'
+    ELSE 'need more efforts'
+END AS remarks
+FROM std
+end
+
+exec sp_remarks5
+
+-- Show the working of Table variables, temporary table, temporary stored procedures. (Both Local and Global)
+
+--local table
+
+CREATE TABLE #localtable(
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+insert into #localtable values (101,'yamini','priya','vsk nagar','cbe')
+
+--global table
+
+CREATE TABLE ##globaltable(
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+insert into ##globaltable values(101,'yamini','priya','vsk nagar','cbe')
+select * from #localtable
+select * from ##globaltable
+
+--local procedure
+create procedure #sp_local_procedure
+as
+begin
+print 'hello local procedure'
+end
+
+exec #sp_local_procedure
+
+--global procedure
+create procedure ##sp_global_procedure
+as
+begin
+print 'hello global procedure'
+end
+
+exec ##sp_global_procedure
+
+--local temporary variables
+
+Declare @studen table (studentid int , studentname varchar(20), semester varchar(20), securedmarks int, totalmarks int)
+insert into @studen values(1,'yamini','sem 5',457,500),(2,'meenu','sem 3',485,500),(3,'ammu','sem 1',456,500),(4,'jawahar','sem 1',425,500),(5,'priya','sem 2',412,500)
+select * from @studen
+
+--global temporary variables
+
+Declare @@studen table (studentid int , studentname varchar(20), semester varchar(20), securedmarks int, totalmarks int)
+insert into @@studen values(1,'yamini','sem 5',457,500),(2,'meenu','sem 3',485,500),(3,'ammu','sem 1',456,500),(4,'jawahar','sem 1',425,500),(5,'priya','sem 2',412,500)
+select * from @@studen

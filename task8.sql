@@ -73,10 +73,15 @@ insert into backup_std values('viku','sem 3 ',450,500)
 merge backup_std b using (select * from std where semester = 'sem 1')as s
 on (s.studentid =b.studentid)
 when matched 
-then update set b.studentname = s.studentname
+then update set
+b.studentname = s.studentname,
+b.semester = s.semester,
+b.securedmarks = s.securedmarks,
+b.totalmarks = s.totalmarks
 when not matched by target
 then insert (studentname, semester, securedmarks, totalmarks)
 values(s.studentname,s.semester,s.securedmarks,s.totalmarks)
 when not matched by source
 then delete;
 
+drop table backup_std

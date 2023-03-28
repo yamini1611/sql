@@ -112,25 +112,25 @@ select * from meview
 
 --2. Show the working of 'on delete cascade on update set default' for the above tables
 
-alter table employee drop constraint [fk_manag]
+alter table employee drop constraint [fk_Manager]
 alter table employee add constraint fk_emp_m_id foreign key(mid) references manager(id) on delete cascade
 delete from manager where name='meena' 
-insert into  manager (id,name)values (1,'ranita'),(2,'harita')
-insert into Employee values(101,'jawahar','bca','1'),(102,'meena','bcom',2)
-insert into Employee values(104,'harishmitha','bca','2')
+insert into  manager (id,name)values (2,'ranita'),(4,'harita')
+insert into Employee values(102,'meena',2,'bcom')
 
-alter table employee drop constraint [fk_Manager]
+
+alter table employee drop constraint [fk_emp_m_id]
 alter table employee drop column mid
-alter table employee  add mid int default 2 constraint fk_manag foreign key(mid) references manager(id) on update set default on delete cascade
+alter table employee  add mid int default 3 constraint fk_manager foreign key(mid) references manager(id)  on delete cascade on update set default
 
 --on update cascade
-update employee set mid=1 where eid=101
-update employee set mid=2 where eid=102
-update employee set mid=3 where eid=103
-update employee set mid=2 where eid=104
-update employee set mid=3 where eid=105
 
-update manager set id=4 where id=3
+update employee set mid=4 where eid=102
+update employee set mid=4 where eid=103
+update employee set mid=1 where eid=104
+update employee set mid=2 where eid=101
+insert into Employee values (105,'vicky','bca',1)
+update manager set id=5 where id=1
 
 delete from manager where id=1
 

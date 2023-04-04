@@ -102,6 +102,6 @@ throw 50002,'name must begin only  with A,D,H,K,P,R,S,T,V,Y ',1;
 end
 end
 
-EXEC friends 'qamini';
+EXEC friends 'yamini';
 
 SELECT * FROM friends1
